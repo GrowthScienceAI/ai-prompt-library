@@ -30,7 +30,7 @@ A comprehensive, searchable library of AI prompts for various use cases. Built w
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/ai-prompt-library.git
+   git clone https://github.com/GrowthScienceAI/ai-prompt-library.git
    cd ai-prompt-library
    ```
 
