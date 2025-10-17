@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A comprehensive library of AI prompts for various use cases. Search, copy, and use prompts for your AI workflows.">
+    <title>AI Prompt Library | Tom Panos</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-logo">
+                    <a href="https://tom-panos.com">Tom Panos</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="https://tom-panos.com">Home</a></li>
+                    <li><a href="https://tom-panos.com/human-centered-ai">Human-Centered AI</a></li>
+                    <li><a href="https://tom-panos.com/software-library">Software Library</a></li>
+                    <li><a href="https://tom-panos.com/learn-to-prompt">Learn to Prompt</a></li>
+                    <li><a href="https://tom-panos.com/case-study">Client Case Study</a></li>
+                    <li><a href="#" class="active">AI Prompt Library</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <h1>AI Prompt Library</h1>
+            <p class="hero-subtitle">A curated collection of powerful AI prompts to enhance your workflows</p>
+            <button class="btn btn-primary" id="submitPromptBtn">Submit Your Prompt</button>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-wrapper">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search prompts by name or content...">
+                <button class="search-clear" id="clearSearch" aria-label="Clear search">×</button>
+            </div>
+            <div class="search-info">
+                <p id="resultsCount">Loading prompts...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prompts Grid -->
+    <main class="prompts-section">
+        <div class="container">
+            <div id="promptsGrid" class="prompts-grid">
+                <!-- Prompts will be loaded here dynamically -->
+            </div>
+            <div id="noResults" class="no-results" style="display: none;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h3>No prompts found</h3>
+                <p>Try adjusting your search terms</p>
+            </div>
+            <div id="loadingIndicator" class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Loading prompts...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Submit Prompt Modal -->
+    <div id="submitModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal" aria-label="Close modal">×</button>
+            <h2>Submit Your Prompt</h2>
+            <p class="modal-subtitle">Share your favorite AI prompt with the community</p>
+            <form id="submitForm" name="prompt-submission" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="prompt-submission">
+                <p style="display: none;">
+                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                </p>
+
+                <div class="form-group">
+                    <label for="promptName">Prompt Name *</label>
+                    <input type="text" id="promptName" name="promptName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="promptContent">Prompt Content *</label>
+                    <textarea id="promptContent" name="promptContent" rows="8" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="submitterName">Your Name (Optional)</label>
+                    <input type="text" id="submitterName" name="submitterName">
+                </div>
+
+                <div class="form-group">
+                    <label for="submitterEmail">Your Email (Optional)</label>
+                    <input type="email" id="submitterEmail" name="submitterEmail">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelSubmit">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Prompt</button>
+                </div>
+            </form>
+            <div id="submissionSuccess" class="submission-success" style="display: none;">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#448361" stroke-width="2"/>
+                    <path d="M8 12l2 2 4-4" stroke="#448361" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h3>Thank you!</h3>
+                <p>Your prompt has been submitted successfully.</p>
+                <button class="btn btn-primary" id="closeSuccess">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Prompt copied to clipboard!</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Tom Panos. All rights reserved.</p>
+            <p>Built with care for the AI community</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
